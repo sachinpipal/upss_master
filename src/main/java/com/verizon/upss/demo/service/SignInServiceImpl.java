@@ -21,7 +21,7 @@ public class SignInServiceImpl implements SignInService {
 	private PasswordEncoder passwordEncoder;
 
 	@Override
-	public UserResponseVO createUser(UserRequestVO userRequestVO) {
+	public UserResponseVO createUser(final UserRequestVO userRequestVO) {
 		User user = requestVoToDbEntity(userRequestVO);
 		User savedUser = userRepository.save(user);
 		UserResponseVO userResponseVO = new UserResponseVO();

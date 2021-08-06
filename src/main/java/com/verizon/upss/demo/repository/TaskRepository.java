@@ -13,8 +13,8 @@ import com.verizon.upss.demo.model.Task;
 @Repository
 public interface TaskRepository extends JpaRepository<Task, Integer> {
 
-	@Query(nativeQuery = true, value = "SELECT t FROM  task t WHERE t.due_date >=:fromDate And t.due_date <=:toDate")
-	Set<Task> getAllactiveTasksByDuration(@Param("fromDate") LocalDateTime todate,
+	@Query(nativeQuery = true, value = "SELECT * FROM  task  WHERE due_date >=:fromDate And due_date <=:toDate")
+	Set<Task> getAllactiveTasksByDuration(@Param("fromDate") LocalDateTime fromDate,
 			@Param("toDate") LocalDateTime toDate);
 
 }
