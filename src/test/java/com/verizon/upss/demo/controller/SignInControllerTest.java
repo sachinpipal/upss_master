@@ -2,8 +2,6 @@ package com.verizon.upss.demo.controller;
 
 import static org.mockito.ArgumentMatchers.any;
 
-import java.io.IOException;
-
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -19,10 +17,6 @@ import org.springframework.test.web.servlet.RequestBuilder;
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
 import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 
-import com.fasterxml.jackson.core.JsonParseException;
-import com.fasterxml.jackson.core.JsonProcessingException;
-import com.fasterxml.jackson.databind.JsonMappingException;
-import com.fasterxml.jackson.databind.ObjectMapper;
 import com.verizon.upss.demo.commons.util.ObjectMapperUtil;
 import com.verizon.upss.demo.repository.UserRepository;
 import com.verizon.upss.demo.requestVO.UserRequestVO;
