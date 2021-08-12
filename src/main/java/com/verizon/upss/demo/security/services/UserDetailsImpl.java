@@ -1,6 +1,7 @@
 package com.verizon.upss.demo.security.services;
 
 import java.util.Collection;
+import java.util.Collections;
 
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -30,7 +31,7 @@ public class UserDetailsImpl implements UserDetails {
 	}
 
 	public static UserDetailsImpl build(User user) {
-		return new UserDetailsImpl(user.getId(), user.getEmail(), user.getfirstName(), user.getLastName(),
+		return new UserDetailsImpl(user.getId(), user.getEmail(), user.getFirstName(), user.getLastName(),
 				user.getPassword());
 	}
 
@@ -68,7 +69,7 @@ public class UserDetailsImpl implements UserDetails {
 
 	@Override
 	public Collection<? extends GrantedAuthority> getAuthorities() {
-		return null;
+		return Collections.emptyList();
 	}
 
 	@Override

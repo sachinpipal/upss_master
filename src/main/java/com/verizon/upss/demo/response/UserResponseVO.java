@@ -1,4 +1,4 @@
-package com.verizon.upss.demo.responseVO;
+package com.verizon.upss.demo.response;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;

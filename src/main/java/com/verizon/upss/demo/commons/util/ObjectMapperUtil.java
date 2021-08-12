@@ -7,6 +7,10 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 
 public final class ObjectMapperUtil {
 
+	private ObjectMapperUtil() {
+		// Auto-generated constructor stub
+	}
+
 	public static String objectToJson(Object obj) {
 		ObjectMapper objectMapper = new ObjectMapper();
 		try {

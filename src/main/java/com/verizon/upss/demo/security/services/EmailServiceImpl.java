@@ -1,6 +1,5 @@
 package com.verizon.upss.demo.security.services;
 
-import java.io.IOException;
 import java.time.LocalDateTime;
 import java.util.Properties;
 import java.util.Set;
@@ -10,16 +9,18 @@ import javax.mail.MessagingException;
 import javax.mail.PasswordAuthentication;
 import javax.mail.Session;
 import javax.mail.Transport;
-import javax.mail.internet.AddressException;
 import javax.mail.internet.InternetAddress;
 import javax.mail.internet.MimeMessage;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.CollectionUtils;
 
+import com.verizon.upss.demo.exception.UpssServiceExcpetion;
 import com.verizon.upss.demo.model.Task;
 import com.verizon.upss.demo.model.User;
 import com.verizon.upss.demo.repository.TaskRepository;
@@ -28,7 +29,7 @@ import com.verizon.upss.demo.repository.TaskRepository;
 @Transactional
 public class EmailServiceImpl implements EmailService {
 
-	@Autowired
+	private static final Logger logger = LoggerFactory.getLogger(EmailServiceImpl.class);
 
 	@Value("${active.task.duration}")
 	private Integer duration;
@@ -41,14 +42,10 @@ public class EmailServiceImpl implements EmailService {
 		Session session = createMailSession();
 		LocalDateTime fromDate = LocalDateTime.now();
 		LocalDateTime toDate = fromDate.plusHours(duration);
-		Set<Task> tasks = taskRepository.getAllactiveTasksByDuration(fromDate,toDate);
+		Set<Task> tasks = taskRepository.getAllactiveTasksByDuration(fromDate, toDate);
 		if (!CollectionUtils.isEmpty(tasks)) {
 			for (Task task : tasks) {
-				try {
-					createEmail(task, session);
-				} catch (MessagingException | IOException e) {
-					e.printStackTrace();
-				}
+				createEmail(task, session);
 			}
 
 		}
@@ -66,30 +63,32 @@ public class EmailServiceImpl implements EmailService {
 		props.put("mail.smtp.auth", "true");
 		props.put("mail.smtp.debug", "true");
 		props.put("mail.smtp.socketFactory.port", "465");
-		props.put("mail.smtp.socketFactory.class", "javax.net.ssl.SSLSocketFactory");
+		props.put("mail.smtp.ssl.checkserveridentity", true);
 		props.put("mail.smtp.socketFactory.fallback", "false");
-		Session session = Session.getDefaultInstance(props, new javax.mail.Authenticator() {
+		return Session.getDefaultInstance(props, new javax.mail.Authenticator() {
+			@Override
 			protected javax.mail.PasswordAuthentication getPasswordAuthentication() {
 				return new PasswordAuthentication(from, password);
 			}
 		});
-		return session;
 	}
 
-	private void createEmail(Task task, Session session) throws AddressException, MessagingException, IOException {
+	private void createEmail(Task task, Session session) {
 		// String to = "sachinpipal23@gmail.com";
 		String from = "sachinpipal@gmail.com";
+		User user = task.getUser();
 		try {
-			User user = task.getUser();
+
 			MimeMessage message = new MimeMessage(session);
 			message.setFrom(new InternetAddress(from));
 			message.addRecipient(Message.RecipientType.TO, new InternetAddress(user.getEmail()));
 			message.setSubject("Nothing Special.." + task.getName());
 			message.setText("Send Mail By Java Programmm...." + task.getName() + task.getPriority());
 			Transport.send(message);
-			System.out.println("message sent successfully");
-		} catch (MessagingException e) {
-			throw new RuntimeException(e);
+			logger.info("message sent successfully");
+		} catch (MessagingException ex) {
+			throw new UpssServiceExcpetion(ex, "Error :{} Exception occured while sending email for userId {} ",
+					ex.getMessage(), user.getId(), 303);
 		}
 	}
 

@@ -10,8 +10,8 @@ import org.springframework.transaction.annotation.Transactional;
 import com.verizon.upss.demo.model.Task;
 import com.verizon.upss.demo.repository.TaskRepository;
 import com.verizon.upss.demo.repository.UserRepository;
-import com.verizon.upss.demo.requestVO.TaskRequestVO;
-import com.verizon.upss.demo.responseVO.TaskResponseVO;
+import com.verizon.upss.demo.request.TaskRequestVO;
+import com.verizon.upss.demo.response.TaskResponseVO;
 
 @Service
 @Transactional
@@ -31,8 +31,7 @@ public class TaskServiceImpl implements TaskService {
 		task.setPriority(taskRequestVO.getPriority());
 		task.setUser(userRepository.getById(taskRequestVO.getUserId()));
 		Task savedTask = taskRepository.save(task);
-		TaskResponseVO taskResponseVO = populateResponseVO(savedTask);
-		return taskResponseVO;
+		return populateResponseVO(savedTask);
 	}
 
 	@Override
@@ -43,8 +42,7 @@ public class TaskServiceImpl implements TaskService {
 		savedTask.setPriority(taskRequestVO.getPriority());
 		savedTask.setName(taskRequestVO.getName());
 		taskRepository.save(savedTask);
-		TaskResponseVO taskResponseVO = populateResponseVO(savedTask);
-		return taskResponseVO;
+		return populateResponseVO(savedTask);
 	}
 
 	private TaskResponseVO populateResponseVO(Task savedTask) {

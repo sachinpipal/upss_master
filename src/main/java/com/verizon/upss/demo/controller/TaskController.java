@@ -14,8 +14,8 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.verizon.upss.demo.commons.util.MessageResponse;
-import com.verizon.upss.demo.requestVO.TaskRequestVO;
-import com.verizon.upss.demo.responseVO.TaskResponseVO;
+import com.verizon.upss.demo.request.TaskRequestVO;
+import com.verizon.upss.demo.response.TaskResponseVO;
 import com.verizon.upss.demo.security.services.UserDetailsImpl;
 import com.verizon.upss.demo.service.TaskService;
 

@@ -34,16 +34,16 @@ public class GlobalExceptionHandler extends ResponseEntityExceptionHandler {
 			errorResult.getFieldErrors()
 					.add(new FieldValidationError(fieldError.getField(), fieldError.getDefaultMessage()));
 		}
-		MessageResponse MessageResponse = new MessageResponse("failure", errorResult);
-		return new ResponseEntity<>(MessageResponse, HttpStatus.BAD_REQUEST);
+		MessageResponse messageResponse = new MessageResponse("failure", errorResult);
+		return new ResponseEntity<>(messageResponse, HttpStatus.BAD_REQUEST);
 	}
 
 	@ExceptionHandler(UpssBaseException.class)
 	@ResponseBody
 	public ResponseEntity<MessageResponse> handleUpssException(final Exception exception,
 			final HttpServletRequest request) {
-		MessageResponse MessageResponse = new MessageResponse("failure", exception.getMessage());
-		return new ResponseEntity<>(MessageResponse, HttpStatus.INTERNAL_SERVER_ERROR);
+		MessageResponse messageResponse = new MessageResponse("failure", exception.getMessage());
+		return new ResponseEntity<>(messageResponse, HttpStatus.INTERNAL_SERVER_ERROR);
 	}
 
 	@Getter

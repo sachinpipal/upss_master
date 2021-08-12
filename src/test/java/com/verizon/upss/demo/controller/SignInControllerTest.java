@@ -19,8 +19,8 @@ import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 
 import com.verizon.upss.demo.commons.util.ObjectMapperUtil;
 import com.verizon.upss.demo.repository.UserRepository;
-import com.verizon.upss.demo.requestVO.UserRequestVO;
-import com.verizon.upss.demo.responseVO.UserResponseVO;
+import com.verizon.upss.demo.request.UserRequestVO;
+import com.verizon.upss.demo.response.UserResponseVO;
 import com.verizon.upss.demo.service.SignInService;
 
 @ExtendWith(MockitoExtension.class)

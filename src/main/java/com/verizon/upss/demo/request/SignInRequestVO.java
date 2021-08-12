@@ -1,4 +1,4 @@
-package com.verizon.upss.demo.requestVO;
+package com.verizon.upss.demo.request;
 
 import javax.validation.constraints.Email;
 import javax.validation.constraints.NotBlank;

@@ -14,10 +14,11 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.verizon.upss.demo.commons.util.JwtUtil;
 import com.verizon.upss.demo.commons.util.MessageResponse;
+import com.verizon.upss.demo.exception.UpssServiceExcpetion;
 import com.verizon.upss.demo.repository.UserRepository;
-import com.verizon.upss.demo.requestVO.SignInRequestVO;
-import com.verizon.upss.demo.requestVO.UserRequestVO;
-import com.verizon.upss.demo.responseVO.UserResponseVO;
+import com.verizon.upss.demo.request.SignInRequestVO;
+import com.verizon.upss.demo.request.UserRequestVO;
+import com.verizon.upss.demo.response.UserResponseVO;
 import com.verizon.upss.demo.service.SignInService;
 
 import io.swagger.v3.oas.annotations.Operation;
@@ -45,7 +46,8 @@ public class SignInController {
 			@ApiResponse(responseCode = "404", description = "Mandatory fields not found", content = @Content) })
 	@PostMapping(value = "/signUp", produces = MediaType.APPLICATION_JSON_VALUE)
 	public ResponseEntity<MessageResponse> signUp(@Valid @RequestBody UserRequestVO userRequestVO) {
-		if (userRepository.existsByEmail(userRequestVO.getEmail())) {
+		boolean isUserExist = userRepository.existsByEmail(userRequestVO.getEmail());
+		if (isUserExist) {
 			return ResponseEntity.badRequest().body(new MessageResponse("Error: Email is already in use!", ""));
 		}
 		UserResponseVO userResponse = signInService.createUser(userRequestVO);
@@ -59,15 +61,14 @@ public class SignInController {
 					@Content(mediaType = "application/json", schema = @Schema(implementation = String.class)) }),
 			@ApiResponse(responseCode = "404", description = "Mandatory fields not found", content = @Content) })
 	@PostMapping("/signin")
-	public ResponseEntity<MessageResponse> logIn(@RequestBody SignInRequestVO signInRequestVO) throws Exception {
+	public ResponseEntity<MessageResponse> logIn(@RequestBody SignInRequestVO signInRequestVO) {
 		try {
 			authenticationManager.authenticate(
 					new UsernamePasswordAuthenticationToken(signInRequestVO.getEmail(), signInRequestVO.getPassword()));
 		} catch (Exception ex) {
-			throw new Exception("inavalid username/password");
+			throw new UpssServiceExcpetion(ex, ex.getMessage(), "Not able to Signin", 202, 0);
 		}
 		return ResponseEntity.ok(new MessageResponse("Access token generated successfully!",
 				jwtUtil.generateToken(signInRequestVO.getEmail())));
-
 	}
 }

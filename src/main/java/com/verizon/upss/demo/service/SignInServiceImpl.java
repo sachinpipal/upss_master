@@ -7,8 +7,8 @@ import org.springframework.transaction.annotation.Transactional;
 
 import com.verizon.upss.demo.model.User;
 import com.verizon.upss.demo.repository.UserRepository;
-import com.verizon.upss.demo.requestVO.UserRequestVO;
-import com.verizon.upss.demo.responseVO.UserResponseVO;
+import com.verizon.upss.demo.request.UserRequestVO;
+import com.verizon.upss.demo.response.UserResponseVO;
 
 @Service
 @Transactional
@@ -32,7 +32,7 @@ public class SignInServiceImpl implements SignInService {
 
 	private UserResponseVO populateResponseVO(User savedUser, UserResponseVO userResponseVO) {
 		userResponseVO.setUserId(savedUser.getId());
-		userResponseVO.setFirstName(savedUser.getfirstName());
+		userResponseVO.setFirstName(savedUser.getFirstName());
 		userResponseVO.setLastName(savedUser.getLastName());
 		userResponseVO.setEmail(savedUser.getEmail());
 		return userResponseVO;
@@ -40,14 +40,13 @@ public class SignInServiceImpl implements SignInService {
 
 	@Override
 	public UserResponseVO logIn(UserRequestVO userRequestVO) {
-		UserResponseVO userResponseVO = new UserResponseVO();
-		return userResponseVO;
+		return new UserResponseVO();
 	}
 
 	private User requestVoToDbEntity(UserRequestVO userRequestVO) {
 		User user = new User();
 		user.setEmail(userRequestVO.getEmail());
-		user.setfirstName(userRequestVO.getFirstName());
+		user.setFirstName(userRequestVO.getFirstName());
 		user.setLastName(userRequestVO.getLastName());
 		user.setPassword(passwordEncoder.encode(userRequestVO.getPassword()));
 		return user;

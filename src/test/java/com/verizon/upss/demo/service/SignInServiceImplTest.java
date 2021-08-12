@@ -14,8 +14,8 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 
 import com.verizon.upss.demo.model.User;
 import com.verizon.upss.demo.repository.UserRepository;
-import com.verizon.upss.demo.requestVO.UserRequestVO;
-import com.verizon.upss.demo.responseVO.UserResponseVO;
+import com.verizon.upss.demo.request.UserRequestVO;
+import com.verizon.upss.demo.response.UserResponseVO;
 
 @ExtendWith(MockitoExtension.class)
 class SignInServiceImplTest {

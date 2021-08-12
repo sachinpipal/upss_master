@@ -1,7 +1,7 @@
 package com.verizon.upss.demo.service;
 
-import com.verizon.upss.demo.requestVO.TaskRequestVO;
-import com.verizon.upss.demo.responseVO.TaskResponseVO;
+import com.verizon.upss.demo.request.TaskRequestVO;
+import com.verizon.upss.demo.response.TaskResponseVO;
 
 public interface TaskService {
 
